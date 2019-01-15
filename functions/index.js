@@ -4,18 +4,14 @@ const admin = require('firebase-admin');
 const BigQuery = require('@google-cloud/bigquery');
 
 // Your Google Cloud Platform project ID
-const projectId = 'bade-anna-test';
-
-
+const projectId = 'hkraft-bade-anna';
 var request = require('request');
-
 var fastXmlParser = require('fast-xml-parser');
 var parseString = require('xml2js').parseString;
 
 admin.initializeApp(functions.config().firebase);
 
 const samplesCollection = 'samples';
-//const samplesCollection = 'samples-offseason';
 
 exports.addSamples = functions.pubsub.topic('hent-fra-anna').onPublish((event) => {
  const pubSubMessage = event.data;
@@ -47,7 +43,6 @@ exports.addMessage = functions.https.onRequest((req, res) => {
 //https://www.yr.no/sted/Norge/Rogaland/Haugesund/Eivindsvatnet/varsel.xml
 
 exports.anna = functions.https.onRequest((req, res) => {
-  
   try {
     console.log('body:', req.body);
     var ref = admin.firestore().collection('annaSettings').doc("settings");
@@ -165,10 +160,6 @@ exports.hentData = functions.https.onRequest((req, res) => {
     .catch(err => {
         console.log('Error getting documents', err);
     });
-
-
-
-  
 });
 
 
@@ -217,7 +208,6 @@ exports.justerData = functions.https.onRequest((req, res) => {
 exports.exportBigQuery = functions.https.onRequest((req, res) => {
   console.log("BigQuery");
 
-
   let bigquery = new BigQuery();
   let datasetName="badetemperatur";
   let tableName = "sample";
@@ -255,9 +245,6 @@ exports.exportBigQuery = functions.https.onRequest((req, res) => {
            timestamp: datetime
        }
        rows.push(row);
-
-
-
 
          console.log("antall" + i,data.published);
 
@@ -343,8 +330,6 @@ exports.sampleToBigQ = functions.firestore
     })
 
   });
-
-
 
 function getDateNoTime(time){
   time.from = new Date(time.from+"+02:00");
