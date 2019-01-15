@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ReactGA from 'react-ga';
 
@@ -61,7 +60,8 @@ class WeatherCard extends Component {
   }
   render() {
     const { classes } = this.props;
-    console.log('current weather', JSON.stringify(this.state.data));
+    // console.log('current weather', JSON.stringify(this.state.data));
+
     if (!this.state.data) { return (<CircularProgress className={classes.progress} size={50} />) }
     return (
       <Paper elevation={4} className={classes.paper} >

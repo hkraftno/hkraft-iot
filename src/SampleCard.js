@@ -7,7 +7,7 @@ import thermometer from './weather/thermometer.svg'
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import Moment from 'react-moment';
 
 import './App.css';
 
@@ -79,12 +79,11 @@ class SampleCard extends Component {
         <Grid item xs={12} sm={12}>
         
                 <Typography variant="caption" align="center">
-                  Sist måling gjort {this.state.data.published.toDate().toLocaleString('nb-no')} 
+                  Sist måling gjort <Moment format="DD/MM/YYYY HH:mm">{this.state.data.published.toDate()}</Moment>
                 </Typography>
         </Grid>       
       </Grid>       
     </Paper>
-     
     );
   }
 }
