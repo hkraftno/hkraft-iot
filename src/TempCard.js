@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@@material-ui/core/core/styles/withStyles';
-import Paper from '@@material-ui/core/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Paper from '@material-ui/core/Paper';
 import thermometer from './weather/thermometer.svg'
-import Typography from '@@material-ui/core/core/Typography';
-import Grid from '@@material-ui/core/core/Grid';
-import CircularProgress from '@@material-ui/core/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { firestore } from 'firebase';
 
 import './App.css';
@@ -60,20 +60,14 @@ class TempCard extends Component {
     <Paper  elevation={4}  className={classes.paper}>
       <Grid container alignItems="center" justify="center" >
       <Grid item xs={12}>
-                <Typography variant="h4" >
-                  Badetemperatur
-                  </Typography>
-        </Grid>
+        <Typography variant="h4" >Badetemperatur</Typography>
+      </Grid>
 
+        <Grid item ><img alt="termometer" src={thermometer} height="100px"/></Grid>
         <Grid item >
-          <img alt="termometer" src={thermometer} height="100px"/>
-        </Grid>
-        <Grid item >
-        <Typography variant="h1" className={classes.test} gutterBottom>
-      
-                  {Math.round(this.state.data.temperature)}°
-                
-                  </Typography>
+          <Typography variant="h1" className={classes.test} gutterBottom>
+                    {Math.round(this.state.data.temperature)}°
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={12}>
         

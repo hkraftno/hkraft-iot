@@ -19,6 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import configureHistory from './configureHistory';
 import AnnaTheme from './AnnaTheme';
+import logo from './logo.svg'
 
 import InfoIcon from '@material-ui/icons/Info';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
@@ -71,15 +72,10 @@ class App extends Component {
         <MuiThemeProvider theme={AnnaTheme}>
 
           <div className="App">
-
-
+          <div><img alt="Haugaland Kraft" src={logo} className="App-logo"/></div>
             <AppBar position="static">
               <Toolbar>
-
-                <Typography variant="h6" color="inherit" className={classes.flex}>
-                  Bade-Anna
-          </Typography>
-
+                <Typography variant="h6" color="inherit" className={classes.flex}>Bade-Anna</Typography>
               </Toolbar>
             </AppBar>
 
