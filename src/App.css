@@ -9,23 +9,10 @@
   left: 8px;
 }
 
-.App-header {
+.App-bar {
   background-color: #ffffff;
-  height: 150px;
-  padding: 20px;
+  height: 70px;
+  padding: 3px;
   color: #1c1c1c;
 }
 
-.App-title {
-  font-family: Madera,sans-serif;
-  font-size: 2.25em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}

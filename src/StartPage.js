@@ -26,9 +26,7 @@ function StartPage(props) {
         <div className={classes.root}>
         <Grid container justify="center" spacing={8}  className={classes.root} alignItems="stretch"  >
             <Grid item xs={12}>
-            <Typography variant="h4" >
-                  Eivindsvatnet
-            </Typography>
+            <Typography variant="h4" >Eivindsvatnet</Typography>
             <Typography variant="caption" >
                   Bade-Anna gjør jobben med å finne ut hvor varmt det er i vannet. Du må selv ta ansvar for å dyppe hodet.
             </Typography>

@@ -3,11 +3,8 @@ import { Route } from 'react-router-dom';
 import { Router, Link } from "react-router-dom";
 import StartPage from './StartPage';
 import StartPageClosed from './StartPageClosed';
-
-import Temp from './Temp';
 import Om from './Om';
 import AppBar from '@material-ui/core/AppBar';
-import Drawer from '@material-ui/core/Drawer';
 
 
 import PropTypes from 'prop-types';
@@ -22,7 +19,6 @@ import AnnaTheme from './AnnaTheme';
 import logo from './logo.svg'
 
 import InfoIcon from '@material-ui/icons/Info';
-import ShowChartIcon from '@material-ui/icons/ShowChart';
 import HomeIcon from '@material-ui/icons/Home';
 
 import './App.css';
@@ -73,22 +69,14 @@ class App extends Component {
 
           <div className="App">
           <div><img alt="Haugaland Kraft" src={logo} className="App-logo"/></div>
-            <AppBar position="static">
+            <AppBar position="static" className="App-bar">
               <Toolbar>
                 <Typography variant="h6" color="inherit" className={classes.flex}>Bade-Anna</Typography>
               </Toolbar>
             </AppBar>
 
-            <Drawer open={this.state.open}
-              containerStyle={{ height: 'calc(100% - 64px)', top: 64 }}>
-
-
-
-            </Drawer>
-
             <Route exact path="/" component={StartPage} />
             <Route exact path="/closed" component={StartPageClosed} />
-            <Route exact path="/stats" component={Temp} />
             <Route exact path="/om" component={Om} />
             <BottomNavigation
               value={value}
@@ -97,12 +85,9 @@ class App extends Component {
               className={classes.menuButton}
             >
               <BottomNavigationAction component={Link} to="/" label="Forsiden" icon={<HomeIcon />} />
-              <BottomNavigationAction component={Link} to="/stats" label="Over tid" icon={<ShowChartIcon />} />
               <BottomNavigationAction component={Link} to="/om" label="Om Bade-Anna" icon={<InfoIcon />} />
-
             </BottomNavigation>
           </div>
-
         </MuiThemeProvider>
       </Router>
     );

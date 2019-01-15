@@ -1,10 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-
-
 import red from '@material-ui/core/colors/red';
-import teal from '@material-ui/core/colors/teal';
-
-
 
 // All the following keys are optional.
 // We try our best to provide a great default value.
@@ -13,8 +8,12 @@ const AnnaTheme = createMuiTheme({
     useNextVariants: true,
   },
   palette: {
-    primary: teal,
-    secondary: red,
+    primary: {
+      main: '#005E9E',
+    },
+    secondary: {
+      main: '#009ada',
+    },
     error: red,
     // Used by `getContrastText()` to maximize the contrast between the background and
     // the text.

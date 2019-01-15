@@ -3,9 +3,15 @@ body {
   padding: 0;
   font-family: Madera,sans-serif;
   background-color: #bbe1f0;
+  color: #1c1c1c;
 }
 
 header.MuiAppBar-colorPrimary-11 {
+    color: #1c1c1c;
+    background-color: #ffffff;
+}
+
+header.jss11 {
     color: #1c1c1c;
     background-color: #ffffff;
 }
