@@ -70,7 +70,7 @@ class SampleCard extends Component {
           <img alt="termometer" src={thermometer} height="100px"/>
         </Grid>
         <Grid item >
-        <Typography variant="h1" className={classes.test} gutterBottom>
+        <Typography variant="h2" className={classes.test} gutterBottom>
       
                   {Math.round(this.state.data.temperature)}°
                 
@@ -79,7 +79,7 @@ class SampleCard extends Component {
         <Grid item xs={12} sm={12}>
         
                 <Typography variant="caption" align="center">
-                  Sist måling gjort <br/> {this.state.data.published.toDate().toLocaleString()} 
+                  Sist måling gjort {this.state.data.published.toDate().toLocaleString('nb-no')} 
                 </Typography>
         </Grid>       
       </Grid>       

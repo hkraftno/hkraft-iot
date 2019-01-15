@@ -1,0 +1,10 @@
+502 Bad Gateway
+
+Unable to find image for this combination!/opt/metno-weatherapi/moduledatadir/Metno::WeatherAPI::Product::Weathericon/38.svg 
+
+Specified parameters:
+
+  * content_type = image/svg+xml
+  * symbol = 38
+
+User-Agent: curl/7.54.0
