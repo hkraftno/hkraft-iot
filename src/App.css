@@ -1,4 +1,5 @@
 .App {
+  font-family: Madera,sans-serif;
   text-align: center;
 }
 
@@ -10,15 +11,10 @@
 }
 
 .App-bar {
+  font-family: Madera,sans-serif;
   background-color: #ffffff;
   height: 70px;
   padding: 3px;
   color: #1c1c1c;
 }
 
-.Tool-bar {
-  background-color: #ffffff;
-  height: 70px;
-  padding: 3px;
-  color: #1c1c1c;
-}
