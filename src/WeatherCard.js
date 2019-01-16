@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ReactGA from 'react-ga';
+import moment from 'moment';
 
 const styles = theme => ({
   root: {
@@ -63,6 +64,15 @@ class WeatherCard extends Component {
     // console.log('current weather', JSON.stringify(this.state.data));
 
     if (!this.state.data) { return (<CircularProgress className={classes.progress} size={50} />) }
+    var icon = './weather/' + this.state.data.icon + '.svg';
+    var format = 'HH:mm';
+    var nowAsString = moment().format(format);
+    var now = moment(nowAsString, format),
+      nightStart = moment('00:00', format),
+      nightStop = moment('08:00', format);
+    if (now.isBetween(nightStart, nightStop)) {
+      icon = './weather/' + this.state.data.icon + 'Night.svg';;
+    }
     return (
       <Paper elevation={4} className={classes.paper} >
         <Grid container alignItems="center" justify="center" >
@@ -70,9 +80,9 @@ class WeatherCard extends Component {
             <Typography variant="h4" >Været</Typography>
           </Grid>
           <Grid item  >
-          <div>
-            <img src={require(`./weather/${this.state.data.icon}.svg`)} alt={this.state.data.icon} height="100px"/>
-          </div>
+            <div>
+              <img src={require(`${icon}`)} alt={this.state.data.icon} height="100px" />
+            </div>
           </Grid>
           <Grid item >
             <Typography variant="h2" className={classes.test} gutterBottom>&nbsp;{this.state.data.temperature.value}°</Typography>
@@ -82,7 +92,7 @@ class WeatherCard extends Component {
               Værvarsel fra <ReactGA.OutboundLink
                 eventLabel="YR"
                 to="https://www.yr.no"
-                target="_blank">Yr levert av Meteorologisk institutt og NRK</ReactGA.OutboundLink>.<br/>
+                target="_blank">Yr levert av Meteorologisk institutt og NRK</ReactGA.OutboundLink>.<br />
             </Typography>
           </Grid>
         </Grid>
