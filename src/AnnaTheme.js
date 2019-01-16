@@ -6,7 +6,10 @@ import red from '@material-ui/core/colors/red';
 const AnnaTheme = createMuiTheme({
   typography: {
     useNextVariants: true,
-    fontFamily: "'Madera', sans-serif",
+    fontFamily: [
+      'Madera',
+      'sans-serif'
+    ]
   },
   palette: {
     primary: {

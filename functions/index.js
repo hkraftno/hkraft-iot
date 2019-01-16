@@ -1,67 +1,36 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-var request = require('request');
-var parseString = require('xml2js').parseString;
+admin.initializeApp();
+const firestore = admin.firestore();
+const request = require('request');
 
-admin.initializeApp(functions.config().firebase);
+exports.hentBadetemperatur = functions.https.onRequest((req, res) => {
+  console.log("Hent badetemperatur fra sensor");
+  request.post('http://codec.slbase.io/SenlabH/decodeMessage', {
+    json: {
+      timestamp: '2019-01-14T08:23:15.695+01:00',
+      payload: '03fd8e0c9c10000e5e',
+      port: '3'
+    }
+  }, (error, response, body) => {
+    if (error !== null)
+      console.log('the error:', error);
+    console.log('statusCode:', response && response.statusCode);
 
-exports.hentYr = functions.https.onRequest((req, res) => {
-  console.log("Hent værdata");
-  request('https://www.yr.no/sted/Norge/Rogaland/Haugesund/Eivindsvatnet/varsel.xml', (error, response, body) => {
-    console.log('the error:', error); // Print the error if one occurred
-    console.log('statusCode:', response && response.statusCode); // Print the response status code
-    console.log('body:', body); // Print the JSON for the YR varsel.
-    parseString(body, (err, result) => {
-      var weatherRef = admin.firestore().collection('weather');
-      console.dir(result);
-      if (err !== null)
-        console.log('not null error: ', err);
+    var measures = body.measures;
+    var firmwareType = body.firmwareType;
 
-      var dateTemp = result.weatherdata.meta[0].lastupdate[0] + "+02:00";
-      console.log("dateTemp", dateTemp);
-      console.log("dateTemp", Date.parse(dateTemp));
-
-      var weather = new Object();
-
-      weather.lastupdate = admin.firestore.Timestamp.fromDate(new Date(dateTemp));
-      weather.link = result.weatherdata.links[0].link[2].$.url;
-      weather.symbol = result.weatherdata.forecast[0].tabular[0].time[0].symbol[0];
-      weather.wind = result.weatherdata.forecast[0].tabular[0].time[0].windSpeed[0].$;
-      weather.time = admin.firestore.Timestamp.fromDate(getDateNoTime(result.weatherdata.forecast[0].tabular[0].time[0].$))
-      weather.temperature = result.weatherdata.forecast[0].tabular[0].time[0].temperature[0].$.value;
-
-      var tempForecast = result.weatherdata.forecast[0].tabular[0].time;
-      console.log("length", tempForecast.length);
-
-      for (var i = 0; i < tempForecast.length; i++) {
-        console.log("periode", tempForecast[i].$.period);
-        if (tempForecast[i].$.period === "3") {
-          weather.forecast = new Object();
-          weather.forecast.symbol = tempForecast[i].symbol[0];
-          weather.forecast.wind = tempForecast[i].windSpeed[0].$;
-          weather.forecast.time = admin.firestore.Timestamp.fromDate(getDateNoTime(tempForecast[i].$));
-          weather.forecast.temperature = tempForecast[i].temperature[0].$.value;
-          break;
-        }
-      }
-      // legg til hele fila;  
-      //weather.complete = result;
-
-      console.log("ISOString" + weather.lastupdate.toISOString());
-      weatherRef.doc(weather.lastupdate.toISOString()).set(weather);
-      return res.send(weather);
-
-    });
-
-
+    const userStatusFirestoreRef = firestore.doc(`${firmwareType}/${measures[0].timestamp}`);
+    var item = {};
+    item['timestamp'] = measures[0].timestamp;
+    for (var i = 0; i < measures.length; i++) {
+      var id = [measures[i].id];
+      item[id] = measures[i].value;
+    }
+    console.log('Legger inn:', item);
+    userStatusFirestoreRef.set(item).then(snapshot => { return console.log(item, "lagt inn i " + firmwareType); })
+      .catch(error => { console.log('error: ', error) });
+    return res.send(item);
   })
-
 });
-
-function getDateNoTime(time) {
-  time.from = new Date(time.from + "+02:00");
-  time.to = new Date(time.to + "+02:00");
-  return time;
-}
-
 

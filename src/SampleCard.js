@@ -41,17 +41,16 @@ const styles = theme => ({
   },
 });
 
+const firmwareType = 'SenlabH';
 
 class SampleCard extends Component {
   state = { data: null };
   
   async componentDidMount() {
-    const result = await api.collection('samples').orderBy("published", "desc").limit(1).get();
-    console.log(result.docs[0].data());
-
+    const result = await api.collection(firmwareType).orderBy("timestamp", "desc").limit(1).get();
     var data = result.docs[0].data();
     this.setState({
-      data: data,
+      data: data
     });
   }
   render() {
@@ -79,7 +78,7 @@ class SampleCard extends Component {
         <Grid item xs={12} sm={12}>
         
                 <Typography variant="caption" align="center">
-                  Sist måling gjort <Moment format="DD/MM/YYYY HH:mm">{this.state.data.published.toDate()}</Moment>
+                  Sist måling gjort <Moment format="DD/MM/YYYY HH:mm">{new Date(this.state.data.timestamp)}</Moment>
                 </Typography>
         </Grid>       
       </Grid>       

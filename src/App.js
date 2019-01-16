@@ -32,7 +32,7 @@ const styles = {
   },
   flex: {
     flex: 1,
-    fontFamily: ['Madera,sans-serif', 'cursive'],
+    fontFamily: ['Madera,sans-serif'],
     fontSize: '25pt',
   },
   menuButton: {
@@ -54,10 +54,7 @@ class App extends Component {
 
   handleToggle = () => this.setState({ open: !this.state.open });
   handleChange = (event, value) => this.setState({ value });
-  async componentDidMount() {
-    console.log("App")
-  }
-
+  async componentDidMount() {}
 
   render() {
     const { classes } = this.props;
@@ -69,7 +66,7 @@ class App extends Component {
 
           <div className="App">
           <div><img alt="Haugaland Kraft" src={logo} className="App-logo"/></div>
-            <AppBar position="static" className="App-bar">
+            <AppBar position="static">
               <Toolbar>
                 <Typography variant="h6" color="inherit" className={classes.flex}>Bade-Anna</Typography>
               </Toolbar>

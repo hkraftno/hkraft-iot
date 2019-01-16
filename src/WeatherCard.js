@@ -70,7 +70,6 @@ class WeatherCard extends Component {
     if (now.isBetween(nightStart, nightStop)) {
       icon = './weather/' + this.state.data.icon + 'Night.svg';
     }
-    console.log('icon: ', icon);
     return (
       <Paper elevation={4} className={classes.paper} >
         <Grid container alignItems="center" justify="center" >
