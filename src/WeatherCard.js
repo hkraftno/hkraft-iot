@@ -48,7 +48,6 @@ class WeatherCard extends Component {
     };
   }
   async componentDidMount() {
-
     yrno.getWeather(LOCATION)
       .then((weather) => {
         // Get a weather data point for a given time between now and 9 days ahead
@@ -61,8 +60,6 @@ class WeatherCard extends Component {
   }
   render() {
     const { classes } = this.props;
-    // console.log('current weather', JSON.stringify(this.state.data));
-
     if (!this.state.data) { return (<CircularProgress className={classes.progress} size={50} />) }
     var icon = './weather/' + this.state.data.icon + '.svg';
     var format = 'HH:mm';
@@ -71,8 +68,9 @@ class WeatherCard extends Component {
       nightStart = moment('00:00', format),
       nightStop = moment('08:00', format);
     if (now.isBetween(nightStart, nightStop)) {
-      icon = './weather/' + this.state.data.icon + 'Night.svg';;
+      icon = './weather/' + this.state.data.icon + 'Night.svg';
     }
+    console.log('icon: ', icon);
     return (
       <Paper elevation={4} className={classes.paper} >
         <Grid container alignItems="center" justify="center" >
