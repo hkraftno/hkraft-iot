@@ -1,7 +1,6 @@
 import React from 'react';
-
-import SampleCard from './SampleClosedCard';
-
+import BadetemperaturCard  from './BadetemperaturCard';
+import WeatherCard  from './WeatherCard';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -21,32 +20,32 @@ const styles = theme => ({
   });
 
 
-function StartPage(props) {
+function BadetemperaturPage(props) {
     const { classes } = props;
     return (
         <div className={classes.root}>
+          <p />
         <Grid container justify="center" spacing={8}  className={classes.root} alignItems="stretch"  >
             <Grid item xs={12}>
-            <Typography variant="h4" >
-                  Eivindsvatnet
-            </Typography>
-            <Typography variant="caption" >
-                  Bade-Anna gjør jobben med å finne ut hvor varmt det er i vannet. Du må selv ta ansvar for å dyppe hodet.
-            </Typography>
+            <Typography variant="h2" >Badetemperaturer</Typography>
+            <hr />
+            <Typography variant="h4" >Eivindsvatnet</Typography>
             </Grid>
             <Grid item xs={11} sm={5} md={4} >
-                
-                <SampleCard />
+                <BadetemperaturCard />
             </Grid>
-
+            <Grid item xs={11} sm={5} md={4} >
+                <WeatherCard />
+            </Grid>
         </Grid>
+        <hr />
       </div>
     );
 
   }
 
-  StartPage.propTypes = {
+  BadetemperaturPage.propTypes = {
     classes: PropTypes.object.isRequired,
   };
 
-export default withStyles(styles)(StartPage);
+export default withStyles(styles)(BadetemperaturPage);

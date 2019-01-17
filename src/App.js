@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Router, Link } from "react-router-dom";
-import StartPage from './StartPage';
-import StartPageClosed from './StartPageClosed';
+import BadetemperaturPage from './BadetemperaturPage';
+import SensorPage from './SensorPage';
 import Om from './Om';
 import AppBar from '@material-ui/core/AppBar';
 
@@ -19,7 +19,8 @@ import AnnaTheme from './AnnaTheme';
 import logo from './logo.svg'
 
 import InfoIcon from '@material-ui/icons/Info';
-import HomeIcon from '@material-ui/icons/Home';
+import PoolIcon from '@material-ui/icons/Pool';
+import SensorIcon from '@material-ui/icons/SettingsInputAntenna';
 
 import './App.css';
 
@@ -68,21 +69,22 @@ class App extends Component {
           <div><img alt="Haugaland Kraft" src={logo} className="App-logo"/></div>
             <AppBar position="static">
               <Toolbar>
-                <Typography variant="h6" color="inherit" className={classes.flex}>Bade-Anna</Typography>
+                <Typography variant="h6" color="inherit" className={classes.flex}>Haugaland Kraft IoT</Typography>
               </Toolbar>
             </AppBar>
 
-            <Route exact path="/" component={StartPage} />
-            <Route exact path="/closed" component={StartPageClosed} />
-            <Route exact path="/om" component={Om} />
+            <Route exact path="/badetemperaturer" component={BadetemperaturPage} />
+            <Route exact path="/sensorer" component={SensorPage} />
+            <Route exact path="/" component={Om} />
             <BottomNavigation
               value={value}
               onChange={this.handleChange}
               showLabels
               className={classes.menuButton}
             >
-              <BottomNavigationAction component={Link} to="/" label="Forsiden" icon={<HomeIcon />} />
-              <BottomNavigationAction component={Link} to="/om" label="Om Bade-Anna" icon={<InfoIcon />} />
+              <BottomNavigationAction component={Link} to="/" label="Om HK IoT" icon={<InfoIcon />} />
+              <BottomNavigationAction component={Link} to="/badetemperaturer" label="Badetemperaturer" icon={<PoolIcon />} />
+              <BottomNavigationAction component={Link} to="/sensorer" label="Sensorer" icon={<SensorIcon />} />
             </BottomNavigation>
           </div>
         </MuiThemeProvider>

@@ -1,12 +1,12 @@
 import Firebase from '@firebase/app'
 import '@firebase/firestore'
 var config = {
-  apiKey: "AIzaSyCfRDYtCnT6o7vlz70yBebTC9z__bhEtNU",
-  authDomain: "hkraft-bade-anna.firebaseapp.com",
-  databaseURL: "https://hkraft-bade-anna.firebaseio.com",
-  projectId: "hkraft-bade-anna",
-  storageBucket: "hkraft-bade-anna.appspot.com",
-  messagingSenderId: "829772993587"
+    apiKey: "AIzaSyDsc_zHjHKfybMaVvxrvefHQfM37t0sNFk",
+    authDomain: "hkraft-iot.firebaseapp.com",
+    databaseURL: "https://hkraft-iot.firebaseio.com",
+    projectId: "hkraft-iot",
+    storageBucket: "hkraft-iot.appspot.com",
+    messagingSenderId: "444770432477"
 };
 
 const fire = Firebase.initializeApp(config)

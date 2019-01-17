@@ -19,7 +19,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
   }),
 
-  freddan:{
+  freddan: {
     fontSize: '6rem',
   },
 
@@ -28,12 +28,12 @@ const styles = theme => ({
   },
   paper: {
     padding: theme.spacing.unit * 2,
-    
-   
-    
+
+
+
   },
-  test:{
-    marginBottom:0,
+  test: {
+    marginBottom: 0,
     fontSize: '6rem',
   },
   control: {
@@ -43,9 +43,9 @@ const styles = theme => ({
 
 const firmwareType = 'SenlabH';
 
-class SampleCard extends Component {
+class BadetemperaturCard extends Component {
   state = { data: null };
-  
+
   async componentDidMount() {
     const result = await api.collection(firmwareType).orderBy("timestamp", "desc").limit(1).get();
     var data = result.docs[0].data();
@@ -55,39 +55,33 @@ class SampleCard extends Component {
   }
   render() {
     const { classes } = this.props;
-    if (!this.state.data ) { return (<CircularProgress className={classes.progress} size={50} />)}
+    if (!this.state.data) { return (<CircularProgress className={classes.progress} size={50} />) }
     return (
-    <Paper  elevation={4}  className={classes.paper}>
-      <Grid container alignItems="center" justify="center" >
-      <Grid item xs={12}>
-                <Typography variant="h4" >
-                  Badetemperatur
-                  </Typography>
+      <Paper elevation={4} className={classes.paper}>
+        <Grid container alignItems="center" justify="center" >
+          <Grid item xs={12}>
+            <Typography variant="h4" >Badetemperatur</Typography>
+          </Grid>
+          <Grid item >
+            <img alt="termometer" src={thermometer} height="100px" />
+          </Grid>
+          <Grid item >
+            <Typography variant="h2" className={classes.test} gutterBottom>
+              {Math.round(this.state.data.temperature)}°
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <Typography variant="caption" align="center">
+              Sist måling gjort <Moment format="DD/MM/YYYY HH:mm">{new Date(this.state.data.timestamp)}</Moment>
+            </Typography>
+          </Grid>
         </Grid>
-
-        <Grid item >
-          <img alt="termometer" src={thermometer} height="100px"/>
-        </Grid>
-        <Grid item >
-        <Typography variant="h2" className={classes.test} gutterBottom>
-      
-                  {Math.round(this.state.data.temperature)}°
-                
-                  </Typography>
-        </Grid>
-        <Grid item xs={12} sm={12}>
-        
-                <Typography variant="caption" align="center">
-                  Sist måling gjort <Moment format="DD/MM/YYYY HH:mm">{new Date(this.state.data.timestamp)}</Moment>
-                </Typography>
-        </Grid>       
-      </Grid>       
-    </Paper>
+      </Paper>
     );
   }
 }
-SampleCard.propTypes = {
+BadetemperaturCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SampleCard);
+export default withStyles(styles)(BadetemperaturCard);

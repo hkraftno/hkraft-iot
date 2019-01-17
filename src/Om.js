@@ -22,7 +22,6 @@ const styles = theme => ({
       maxWidth: '600px',
       margin:'auto',
       marginTop: '8px',
-      
     },
     test:{
       marginBottom:0,
@@ -44,21 +43,25 @@ class Om extends Component {
         <Grid item xs={11} >
           <Paper  elevation={4} className={classes.paper} >
                 <Typography variant="h4" gutterBottom align="center">
-                Om Bade-Anna
-                </Typography>
-                <Typography variant="title" align="left" gutterBottom>
-                Historien
-                </Typography>      
-                <Typography align="left" gutterBottom>
-                Bade-Anna er ute og bader hele sommeren. Hun måler temperaturen i vannet og deler det med andre bade-entusiaster. Ikke alle er like glade i å bade i all slags vær som Bade-Anna, men det er bra at hun gjør det for oss. Da vet vi om temperaturen er akkurat passe når vi vil ta oss en dukkert. Bade-Anna melder også været. Eller, det vil si hun sjekker værmeldingen hos Yr.
+                Om Haugaland Kraft IoT
                 </Typography>
                 <Typography variant="title" align="left" gutterBottom>
                 Om tjenesten
                 </Typography>      
                 <Typography align="left" gutterBottom>
-                Bade-Anna er laget som en prototype på hva som er mulig å få til med IoT. Fremover vil Haugaland Kraft lage flere nyttige tjenester som baserer seg på sensorer.
-                <br/> <br/>
-                Bade-Anna er en liten sensor (LoRa) med en temperaturmåler som flyter ute på Eivindsvatnet.  
+                Du har kanskje hørt om tingenes Internett eller det engelske begrepet Internet of things (IoT)? Først skulle alle vi mennesker på nett, barn som eldre – nå er det alle tingene vi omgir oss med som skal kobles på. Litt misvisende kaller vi dingsene smarte. Vi snakker om smarthjem, smartkjøretøy, smartby og smartsamfunn. Vi velger å kalle det smart anvendelse av teknologi hvor målet er å gjøre livet og verden litt bedre. Tingene er et teknologisk middel som vi mennesker anvender på en smart måte. Smartmenneske.
+                <p />
+                Det er ikke bare hjemmene våre som blir smartere med ny teknologi – det ligger et samfunnsmessig mye større potensiale andre steder. For eksempel i kommuneforvaltning og i det å bygge byer, regioner og kommuner til smartere og mer effektive samfunn.
+                <p />
+                På Alvanuten i Aksdal har Haugaland Kraft montert en sender som over lange avstander kan kommunisere med sensorer i mange varianter. Sensorene kan måle luftkvalitet, temperatur, bevegelse, helling, posisjon, retning, trykk, vind, sol og mye mer. De kan plasseres i vann, sjø, luft, jord, på eller inne i gjenstander. Et stort mulighetsrom som kun begrenses av kreativitet. Eksempler på anvendelser er måling av badetemperaturer, telling av turgåere, syklister, ledige parkeringsplasser, fyllingsgrad i søppelkasser, kumlokk som er i ferd med å tettes, rør som har sprekker eller er tette, brannfeller, rottefeller, mørke gatelys, gryende oversvømmelser, isete veier, luftkvalitet, vær, vannstand og kloakk. Stort sett alt som omgir oss kan måles, identifiseres og rapporteres. Fremover vil Haugaland Kraft lage flere nyttige tjenester som baserer seg på sensorer.
+                </Typography>
+                <Typography variant="title" align="left" gutterBottom>
+                Badetemperaturer
+                </Typography>
+                <Typography align="left" gutterBottom>
+                Bade-Anna er ute og bader hele sommeren. Hun måler temperaturen i vannet og deler det med andre bade-entusiaster. Ikke alle er like glade i å bade i all slags vær som Bade-Anna, men det er bra at hun gjør det for oss. Da vet vi om temperaturen er akkurat passe når vi vil ta oss en dukkert. Bade-Anna melder også været. Eller, det vil si hun sjekker værmeldingen hos Yr.
+                <p />
+                Bade-Anna er en liten sensor (LoRaWAN) med en temperaturmåler som flyter ute på Eivindsvatnet. Den er laget som en prototype på hva som er mulig å få til med IoT.
                 </Typography>
                 <Typography variant="title" align="left" gutterBottom>
                 Kontakt
@@ -73,9 +76,9 @@ class Om extends Component {
                 Om bruk av informasjonskapsler
                 </Typography>      
                 <Typography align="left" gutterBottom>
-                Bade-Anna bruker informasjonskapsler fra Google Analytics, Hotjar.com og Facebook for å analysere bruken av tjenesten Bade-Anna. Disse tjenestene samler inn typisk informasjon som nettlesern du bruker, hvilke sider du har besøk, hvor du kom fra, hva slags enhet du bruker og hvor lenge du har vært på siden.<br/> <br/>
+                Haugaland Kraft IoT bruker informasjonskapsler fra Google Analytics, Hotjar.com og Facebook for å analysere bruken av tjenesten Bade-Anna. Disse tjenestene samler inn typisk informasjon som nettlesern du bruker, hvilke sider du har besøk, hvor du kom fra, hva slags enhet du bruker og hvor lenge du har vært på siden.<br/> <br/>
                 Dette gjør vi for å kunne lage siden bedre og lære litt opp hvordan man kan få trafikk inn på siden. <br/> <br/>
-                Ønsker du at disse kapselene ikke skal benyttes kan du fjerne de under instilllinger i nettleseren din. Der kan du også skru av bruk av slike inforemasjonskapsler helt.  Mener du at jeg burde lage funksjonalitet for å gjøre dette på en enklere måte, så ta kontakt på facebook eller opp i tilbakemeldingsknappen. Det er interessant om å høre om du synes dette ikke er greit. Ellers håper jeg du er fornøyd med tjenesten og fortsetter å benytte den selv om jeg måler litt om hvordan den brukes. 
+                Ønsker du at disse kapselene ikke skal benyttes kan du fjerne de under instilllinger i nettleseren din. Der kan du også skru av bruk av slike inforemasjonskapsler helt.  Mener du at jeg burde lage funksjonalitet for å gjøre dette på en enklere måte, så ta kontakt på facebook eller opp i tilbakemeldingsknappen. Det er interessant om å høre om du synes dette ikke er greit. Ellers håper jeg du er fornøyd med tjenesten og fortsetter å benytte den selv om vi måler litt om hvordan den brukes.
                 </Typography>
 
               <ReactGA.OutboundLink 
