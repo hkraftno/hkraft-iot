@@ -33,7 +33,7 @@ exports.decodeSensorData = functions.https.onRequest((req, res) => {
     console.log('Legger inn:', item);
     firestoreRef.set(item).then(snapshot => { return console.log(item, "lagt inn i " + firmwareType); })
       .catch(error => { console.log('error: ', error) });
-    return res.send(item);
+    return res.send(body);
   })
 });
 
