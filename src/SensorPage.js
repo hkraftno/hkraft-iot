@@ -1,9 +1,8 @@
 import React from 'react';
-import BatteryCard  from './SensorCard';
+import SensorCard  from './SensorCard';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
     root: {
@@ -25,15 +24,10 @@ function SensorPage(props) {
         <div className={classes.root}>
         <p />
         <Grid container justify="center" spacing={8}  className={classes.root} alignItems="stretch"  >
-            <Grid item xs={12}>
-              <Typography variant="h2" > Sensorer</Typography>
-              <hr />
-            </Grid>
             <Grid item xs={11} sm={5} md={4} >
-                <BatteryCard />
+                <SensorCard />
             </Grid>
         </Grid>
-        <hr />
       </div>
     );
 

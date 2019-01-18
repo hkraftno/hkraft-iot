@@ -66,7 +66,7 @@ class App extends Component {
         <MuiThemeProvider theme={AnnaTheme}>
 
           <div className="App">
-          <div><img alt="Haugaland Kraft" src={logo} className="App-logo"/></div>
+          {/* <div><img alt="Haugaland Kraft" src={logo} className="App-logo"/></div> */}
             <AppBar position="static">
               <Toolbar>
                 <Typography variant="h6" color="inherit" className={classes.flex}>Haugaland Kraft IoT</Typography>

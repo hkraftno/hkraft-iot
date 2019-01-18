@@ -10,8 +10,8 @@ exports.decodeSensorData = functions.https.onRequest((req, res) => {
   console.log("decoding sensor payload");
   request.post('http://codec.slbase.io/SenlabH/decodeMessage', {
     json: {
-      timestamp: '2019-01-14T08:23:15.695+01:00',
-      payload: '03fd8e0c9c10000e5e',
+      timestamp: '2019-01-18 12:23:34.570+01:00',
+      payload: '03fd8e049c10000e61',
       port: '3'
     }
   }, (error, response, body) => {

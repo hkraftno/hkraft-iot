@@ -27,8 +27,7 @@ function BadetemperaturPage(props) {
           <p />
         <Grid container justify="center" spacing={8}  className={classes.root} alignItems="stretch"  >
             <Grid item xs={12}>
-            <Typography variant="h2" >Badetemperaturer</Typography>
-            <hr />
+            <p />
             <Typography variant="h4" >Eivindsvatnet</Typography>
             </Grid>
             <Grid item xs={11} sm={5} md={4} >
@@ -38,7 +37,6 @@ function BadetemperaturPage(props) {
                 <WeatherCard />
             </Grid>
         </Grid>
-        <hr />
       </div>
     );
 
