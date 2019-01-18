@@ -38,13 +38,16 @@ exports.decodeSensorData = functions.https.onRequest((req, res) => {
 });
 
 exports.postSensorData = functions.https.onRequest((req, res) => {
-  console.log('received', req.method);
+  console.log('received', req.method + ': ' + req.body);
   if (req.method === 'POST') {
-    console.log('body:', req.body)
-    reqBody = JSON.parse(req.body);
+    var almostValidJSON = req.body.replace(/([{,])(\s*)([A-Za-z0-9_\-]+?)\s*:/g, '$1"$3":')
+    var semiValidJSON = almostValidJSON.replace(/'/g, '"');
+    var validJSON = semiValidJSON.replace(/\[Object\]/g, '"[Object]"');
+    console.log(validJSON);
+    var reqObj = JSON.parse(validJSON);
+    console.log(typeof reqObj);
     const firestoreRef = firestore.doc(`sensordata/${new Date().valueOf()}`);
-    console.log('Legger inn:', req.body);
-    firestoreRef.set(reqBody).then(snapshot => { return console.log(reqBody, "lagt inn i sensordata"); })
+    firestoreRef.set(reqObj).then(snapshot => { return console.log(reqObj, "lagt inn i sensordata"); })
       .catch(error => { console.log('error: ', error) });
   } else {
     console.log('returning 405')
