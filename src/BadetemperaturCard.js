@@ -41,13 +41,13 @@ const styles = theme => ({
   },
 });
 
-const firmwareType = 'SenlabH';
+const devEUI = '70B3D580A010638B';
 
 class BadetemperaturCard extends Component {
   state = { data: null };
 
   async componentDidMount() {
-    const result = await api.collection(firmwareType).orderBy("timestamp", "desc").limit(1).get();
+    const result = await api.collection(devEUI).orderBy("timestamp", "desc").limit(1).get();
     var data = result.docs[0].data();
     this.setState({
       data: data
