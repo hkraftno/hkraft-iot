@@ -13,7 +13,7 @@ exports.decodeSensorData = functions.https.onRequest((req, res) => {
   if (req.method === 'POST') {
     var sensorData = req.body;
     if (typeof sensorData === "object")
-    sensorData = JSON.stringify(sensorData);
+      sensorData = JSON.stringify(sensorData);
     sensorData = JSON.parse(sensorData);
     const devEUI = sensorData.deveui;
     const doc = devEUI + '/' + sensorData.timestamp
@@ -53,10 +53,9 @@ exports.decodeSensorData = functions.https.onRequest((req, res) => {
         });
       return res.send(body);
     })
-  } else {
-    console.log('returning 405')
-    return res.sendStatus(405);
   }
+  console.log('returning 405')
+  return res.sendStatus(405);
 });
 
 exports.postSensorData = functions.https.onRequest((req, res) => {
@@ -75,10 +74,10 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
     firestoreRef.set(reqObj).then(snapshot => { return console.log(reqObj, "lagt inn i from_thingpark"); })
       .catch(error => {
         console.log('error: ', error)
-        return res.sendStatus(500);  
+        return res.sendStatus(500);
       });
-      console.log('returning 201')
-      return res.sendStatus(201);
+    console.log('returning 201')
+    return res.sendStatus(201);
   } else {
     console.log('returning 405')
     return res.sendStatus(405);
