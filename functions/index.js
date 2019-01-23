@@ -8,7 +8,7 @@ const request = require('request');
 
 exports.decodeSensorData = functions.https.onRequest((req, res) => {
 
-  console.log('postSensorData received [', req.method + ' ]: ' + req.body);
+  console.log('decodeSensorData received [', req.method + ' ]: ' + req.body);
 
   if (req.method === 'POST') {
     var sensorData = req.body;
