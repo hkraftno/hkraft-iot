@@ -6,6 +6,11 @@ const settings = { timestampsInSnapshots: true };
 firestore.settings(settings);
 const request = require('request');
 
+// DevEUI --> sensorType
+const sensorMap = {
+  '70B3D580A010638B': 'thy_lab_14ns',
+};
+
 exports.decodeSensorData = functions.https.onRequest((req, res) => {
   console.log('decodeSensorData received [', req.method, ']:', JSON.stringify(req.body));
 
@@ -15,12 +20,11 @@ exports.decodeSensorData = functions.https.onRequest((req, res) => {
     sensorData = JSON.parse(sensorData);
     const devEUI = sensorData.deveui;
     const doc = devEUI + '/' + sensorData.timestamp
-    const sensorType = 'thy_lab_14ns';
 
     console.log('Posting for decoding: ', sensorData);
 
     request.get(
-      `https://us-central1-hkraft-iot.cloudfunctions.net/parse_${sensorType}/${sensorData.payload}`
+      `https://us-central1-hkraft-iot.cloudfunctions.net/parse_${sensorMap[devEUI]}/${sensorData.payload}`
     , (error, response, body) => {
       if (error !== null) {
         console.log('error:', error);
