@@ -17,34 +17,25 @@ exports.decodeSensorData = functions.https.onRequest((req, res) => {
     sensorData = JSON.parse(sensorData);
     const devEUI = sensorData.deveui;
     const doc = devEUI + '/' + sensorData.timestamp
+    const sensorType = 'thy_lab_14ns';
 
     console.log('Posting for decoding: ', sensorData);
 
-    request.post('http://codec.slbase.io/SenlabH/decodeMessage', {
-      json: {
-        timestamp: sensorData.timestamp,
-        payload: sensorData.payload,
-        port: sensorData.port,
-      }
+    request.get(`https://us-central1-hkraft-iot.cloudfunctions.net/parse_${sensorType}/${sensorData.payload}`
     }, (error, response, body) => {
       if (error !== null) {
         console.log('error:', error);
         return response.sendStatus(500);
       }
-
       console.log('json:', JSON.stringify(body));
 
-      var measures = body.measures;
-
-      console.log('measures: ' + JSON.stringify(measures));
-
-      const firestoreRef = firestore.doc(`${doc}`);
-      var item = {};
-      item['timestamp'] = measures[0].timestamp;
-      for (var i = 0; i < measures.length; i++) {
-        var id = [measures[i].id];
-        item[id] = measures[i].value;
-      }
+      const firestoreRef = firestore.doc(doc);
+      const item = {
+        timestamp : new Date(sensorData.timestamp).toISOString(),
+        battery_current_level: body.battery_level,
+        temperature: body.temperature,
+        humidity: body.humidity,
+      };
       console.log('Legger inn:', item);
       firestoreRef.set(item).then(snapshot => { return console.log(item, "lagt inn i " + doc); })
         .catch(error => {
