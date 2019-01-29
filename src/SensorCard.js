@@ -62,14 +62,14 @@ class SensorCard extends Component {
     const { classes } = this.props;
     if (!this.state.data ) { return (<CircularProgress className={classes.progress} size={50} />)}
     var battery_icon = battery_0;
-    if (this.state.data.battery_current_level > 90) {
+    if (this.state.data.battery_level > 90) {
       battery_icon = battery_100
-    } else if (this.state.data.battery_current_level > 60) {
+    } else if (this.state.data.battery_level > 60) {
       battery_icon = battery_75
-    } else if (this.state.data.battery_current_level > 25) {
+    } else if (this.state.data.battery_level > 25) {
       battery_icon = battery_50
     }
-    else if (this.state.data.battery_current_level > 10) {
+    else if (this.state.data.battery_level > 10) {
       battery_icon = battery_25
     }
     return (
@@ -85,7 +85,7 @@ class SensorCard extends Component {
       </Grid>
       <Grid item >
         <Typography>
-          {this.state.data.battery_current_level}% &nbsp;&nbsp;
+          {Math.round(this.state.data.battery_level)}% &nbsp;&nbsp;
         </Typography>
       </Grid>
       <Grid item >
