@@ -22,7 +22,7 @@ func TestID(t *testing.T) {
 }
 
 func TestBattery(t *testing.T) {
-	var expected float32 = 253.0 / 254.0 // 99%
+	var expected float32 = 253.0 / 254.0 * 100 // 99%
 	var data thyLab14nsStruct
 	data.parse([]byte{0x00, 0xfd, 0x00, 0x00, 0x00, 0x00})
 	actual := data.BatteryLevel
@@ -187,7 +187,7 @@ func TestParserExampleHex1(t *testing.T) {
 	Parse(w, r)
 	result := w.Result()
 	body, _ := ioutil.ReadAll(result.Body)
-	var expected = `{"id":3,"battery_level":0.996063,"internal_data":"8e019c10","temperature":1.6875,"humidity":99}`
+	var expected = `{"id":3,"battery_level":99.6063,"internal_data":"8e019c10","temperature":1.6875,"humidity":99}`
 	if expected != string(body) {
 		t.Errorf(
 			"Expected JSON to be\n%s\nbut was\n%s",

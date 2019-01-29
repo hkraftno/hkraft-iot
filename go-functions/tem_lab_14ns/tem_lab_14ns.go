@@ -44,7 +44,7 @@ type temLab14nsStruct struct {
 func (t *temLab14nsStruct) parse(payload []byte) {
 	length := len(payload)
 	t.ID = uint8(payload[0])
-	t.BatteryLevel = float32(payload[1]) / 254.0
+	t.BatteryLevel = float32(payload[1]) / 254.0 * 100
 	for _, b := range payload[2 : length-2] {
 		t.InternalData += fmt.Sprintf("%02x", b)
 	}
