@@ -35,7 +35,7 @@ const styles = theme => ({
     height: 240,
   },
   paper: {
-    padding: theme.spacing.unit * 2, 
+    padding: theme.spacing.unit * 2,
   },
   test:{
     marginBottom:0,
@@ -50,13 +50,22 @@ const devEUI = '70B3D580A010638B';
 
 class SensorCard extends Component {
   state = { data: null };
-  
-  async componentDidMount() {
-    const result = await api.collection(devEUI).orderBy("timestamp", "desc").limit(1).get();
-    var data = result.docs[0].data();
-    this.setState({
-      data: data
-    });
+
+
+  unsubscibe = null;
+
+  componentDidMount() {
+    this.unsubscibe = api
+    .collection('latest')
+    .doc(devEUI)
+    .onSnapshot(doc =>
+      this.setState({
+        data: doc.data(),
+      })
+    );
+  }
+  componentWillUnmount() {
+    this.unsubscibe && this.unsubscibe();
   }
   render() {
     const { classes } = this.props;

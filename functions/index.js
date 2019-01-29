@@ -38,3 +38,14 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
     return res.sendStatus(405);
   }
 });
+
+for (const key of Object.keys(sensorMap)) {
+  exports[`updateLatestFor${key}`] = functions.firestore
+  .document(`${key}/{time}`)
+  .onCreate(snap =>
+    firestore
+    .doc(`latest/${key}`)
+    .set(snap.data())
+    .then(() => console.log(`Updated 'latest/${key}' to point to newest measurement`))
+  );
+}
