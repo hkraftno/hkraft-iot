@@ -8,7 +8,7 @@ const rp = require('request-promise-native');
 
 // DevEUI --> sensorType
 const sensorMap = {
-  '70B3D580A010638B': 'thy_lab_14ns',
+  '70B3D580A010638B': 'thy_lab_xxns',
 };
 
 exports.postSensorData = functions.https.onRequest((req, res) => {

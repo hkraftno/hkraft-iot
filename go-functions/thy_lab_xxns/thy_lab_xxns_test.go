@@ -9,7 +9,7 @@ import (
 
 func TestID(t *testing.T) {
 	var expected uint8 = 3
-	var data temLab14nsStruct
+	var data thyLabxxnsStruct
 	data.parse([]byte{0x03, 0x00, 0x00, 0x00, 0x00, 0x00})
 	actual := data.ID
 	if expected != actual {
@@ -23,7 +23,7 @@ func TestID(t *testing.T) {
 
 func TestBattery(t *testing.T) {
 	var expected float32 = 253.0 / 254.0 * 100 // 99%
-	var data temLab14nsStruct
+	var data thyLabxxnsStruct
 	data.parse([]byte{0x00, 0xfd, 0x00, 0x00, 0x00, 0x00})
 	actual := data.BatteryLevel
 	if expected != actual {
@@ -37,8 +37,8 @@ func TestBattery(t *testing.T) {
 
 func TestInternalData(t *testing.T) {
 	expected := "01020304050607"
-	var data temLab14nsStruct
-	data.parse([]byte{0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x00, 0x00})
+	var data thyLabxxnsStruct
+	data.parse([]byte{0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x00, 0x00, 0x00})
 	actual := data.InternalData
 	if actual != expected {
 		t.Errorf(
@@ -51,8 +51,8 @@ func TestInternalData(t *testing.T) {
 
 func TestTemperature(t *testing.T) {
 	var expected float32 = 32767 / 16.0
-	var data temLab14nsStruct
-	data.parse([]byte{0x00, 0x00, 0x7f, 0xff})
+	var data thyLabxxnsStruct
+	data.parse([]byte{0x00, 0x00, 0x7f, 0xff, 0x00})
 	actual := data.Temperature
 	if expected != actual {
 		t.Errorf(
@@ -65,8 +65,8 @@ func TestTemperature(t *testing.T) {
 
 func TestTemperatureVariableInternalData(t *testing.T) {
 	var expected float32 = -3841 / 16.0
-	var data temLab14nsStruct
-	data.parse([]byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0xff})
+	var data thyLabxxnsStruct
+	data.parse([]byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0xff, 0x00})
 	actual := data.Temperature
 	if expected != actual {
 		t.Errorf(
@@ -77,8 +77,22 @@ func TestTemperatureVariableInternalData(t *testing.T) {
 	}
 }
 
+func TestHumidity(t *testing.T) {
+	var expected uint8 = 95
+	var data thyLabxxnsStruct
+	data.parse([]byte{0x00, 0x00, 0x00, 0x00, 0x5f})
+	actual := data.Humidity
+	if expected != actual {
+		t.Errorf(
+			"Expected Humidity to be %d but was %d",
+			expected,
+			actual,
+		)
+	}
+}
+
 func TestInvalidHTTPMethod(t *testing.T) {
-	r, _ := http.NewRequest("POST", "/03fd8e019c10001b", nil)
+	r, _ := http.NewRequest("POST", "/03fd8e019c10001b63", nil)
 	w := httptest.NewRecorder()
 
 	Parse(w, r)
@@ -141,7 +155,7 @@ func TestInvalidMessageFormat(t *testing.T) {
 }
 
 func TestParserExampleHex1(t *testing.T) {
-	r, _ := http.NewRequest("GET", "/03fd8e019c10001b", nil)
+	r, _ := http.NewRequest("GET", "/03fd8e019c10001b63", nil)
 	w := httptest.NewRecorder()
 
 	/* Result from http://codec.slbase.io/SenlabH/decodeMessage
@@ -173,7 +187,7 @@ func TestParserExampleHex1(t *testing.T) {
 	Parse(w, r)
 	result := w.Result()
 	body, _ := ioutil.ReadAll(result.Body)
-	var expected = `{"id":3,"battery_level":99.6063,"internal_data":"8e019c10","temperature":1.6875}`
+	var expected = `{"id":3,"battery_level":99.6063,"internal_data":"8e019c10","temperature":1.6875,"humidity":99}`
 	if expected != string(body) {
 		t.Errorf(
 			"Expected JSON to be\n%s\nbut was\n%s",
