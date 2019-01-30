@@ -7,8 +7,8 @@ firestore.settings(settings);
 const rp = require('request-promise-native');
 
 // DevEUI --> sensorType
-const sensorMap = {
-  '70B3D580A010638B': 'thy_lab_xxns',
+const sensors = {
+  '70B3D580A010638B': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_thy_lab_xxns',
 };
 
 exports.postSensorData = functions.https.onRequest((req, res) => {
@@ -18,13 +18,13 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
     const ts = new Date(uplink.Time).toISOString();
     const fromThingparkRef = firestore.doc(`from_thingpark/${ts}`);
     const measurementRef = firestore.doc(`${uplink.DevEUI}/${ts}`);
-    if (!sensorMap[uplink.DevEUI]){
+    if (!sensors[uplink.DevEUI]){
       return res.status(404).send(`There doesn't exist a parser for DevEUI ${uplink.DevEUI}`);
     }
     return fromThingparkRef
     .set(req.body)
     .then(() => console.log('Stored data from thinkpark: OK'))
-    .then(() => rp.get(`https://us-central1-hkraft-iot.cloudfunctions.net/parse_${sensorMap[uplink.DevEUI]}/${uplink.payload_hex}`))
+    .then(() => rp.get(`${sensors[uplink.DevEUI]}/${uplink.payload_hex}`))
     .then(response => JSON.parse(response))
     .then(parsed => Object.assign(parsed, {timestamp: ts}))
     .then(parsed => measurementRef.set(parsed))
@@ -39,7 +39,7 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
   }
 });
 
-for (const key of Object.keys(sensorMap)) {
+for (const key of Object.keys(sensors)) {
   exports[`updateLatestFor${key}`] = functions.firestore
   .document(`${key}/{time}`)
   .onCreate(snap =>
