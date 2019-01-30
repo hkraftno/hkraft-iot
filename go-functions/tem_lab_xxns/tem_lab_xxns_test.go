@@ -144,32 +144,6 @@ func TestParserExampleHex1(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/03fd8e019c10001b", nil)
 	w := httptest.NewRecorder()
 
-	/* Result from http://codec.slbase.io/SenlabH/decodeMessage
-	{
-	  "id": "datalog_transmission",
-	  "firmwareType": "SenlabH",
-	  "measures": [
-	      {
-	          "id": "temperature",
-	          "timestamp": 1547826819088,
-	          "value": 1.6875
-	      },
-	      {
-	          "id": "humidity",
-	          "timestamp": 1547826819088,
-	          "value": 99
-	      },
-	      {
-	          "id": "battery_current_level",
-	          "timestamp": 1547828612088,
-	          "value": 99
-	      }
-	  ],
-	  "parameters": [],
-	  "events": []
-	}
-	*/
-
 	Parse(w, r)
 	result := w.Result()
 	body, _ := ioutil.ReadAll(result.Body)
