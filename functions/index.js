@@ -9,6 +9,11 @@ const rp = require('request-promise-native');
 // DevEUI --> sensorType
 const sensors = {
   '70B3D580A010638B': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_thy_lab_xxns',
+  '70B3D580A0106438': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_pul_lab_xxns',
+  '70B3D580A010344E': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_pir_lab_xxns',
+  '70B3D580A0104DA8': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_tem_lab_xxns',
+  '70B3D580A0106436': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_tor_lab_xxns',
+  '70B3D580A010642B': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_tor_lab_xxns',
 };
 
 exports.postSensorData = functions.https.onRequest((req, res) => {
