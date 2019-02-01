@@ -8,9 +8,9 @@ import (
 )
 
 func TestID(t *testing.T) {
-	var expected uint8 = 3
+	var expected uint8 = 1
 	var data temLabxxnsStruct
-	data.parse([]byte{0x03, 0x00, 0x00, 0x00, 0x00, 0x00})
+	data.parse([]byte{0x01, 0x00, 0x00, 0x00, 0x00, 0x00})
 	actual := data.ID
 	if expected != actual {
 		t.Errorf(
@@ -141,13 +141,13 @@ func TestInvalidMessageFormat(t *testing.T) {
 }
 
 func TestParserExampleHex1(t *testing.T) {
-	r, _ := http.NewRequest("GET", "/03fd8e019c10001b", nil)
+	r, _ := http.NewRequest("GET", "/01fd8e019c10001b", nil)
 	w := httptest.NewRecorder()
 
 	Parse(w, r)
 	result := w.Result()
 	body, _ := ioutil.ReadAll(result.Body)
-	var expected = `{"id":3,"battery_level":99.6063,"internal_data":"8e019c10","temperature":1.6875}`
+	var expected = `{"id":1,"battery_level":99.6063,"internal_data":"8e019c10","temperature":1.6875}`
 	if expected != string(body) {
 		t.Errorf(
 			"Expected JSON to be\n%s\nbut was\n%s",
