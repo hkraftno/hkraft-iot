@@ -17,8 +17,8 @@ func Parse(w http.ResponseWriter, r *http.Request) {
 	} else if len(parts) != 2 || parts[1] == "" {
 		http.Error(w, "Expected HEX to come after /", 400)
 		return
-	} else if !strings.HasPrefix(parts[1], "03") {
-		http.Error(w, "This parser only supports the Uplink message DATALOG - FPort 3 (HEX starts with 03)", 400)
+	} else if !strings.HasPrefix(parts[1], "05") {
+		http.Error(w, "This parser only supports the Uplink message DATALOG - FPort 3 (HEX starts with 05)", 400)
 		return
 	}
 
