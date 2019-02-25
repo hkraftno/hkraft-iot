@@ -35,17 +35,17 @@ func Parse(w http.ResponseWriter, r *http.Request) {
 }
 
 type pirLabxxnsStruct struct {
-	ID           uint8   `json:"id"`
-	BatteryLevel float32 `json:"battery_level"`
-	InternalData string  `json:"internal_data"`
-	Counter      uint32  `json:"counter"`
+	ID           uint8  `json:"id"`
+	BatteryLevel uint8  `json:"battery_level"`
+	InternalData string `json:"internal_data"`
+	Counter      uint32 `json:"counter"`
 }
 
 func (t *pirLabxxnsStruct) parse(payload []byte) {
 	length := len(payload)
 	t.ID = uint8(payload[0])
 	// battery level expressed in 1/254 %
-	t.BatteryLevel = float32(payload[1]) / 254.0 * 100
+	t.BatteryLevel = uint8(float32(payload[1]) / 254.0 * 100)
 	for _, b := range payload[2 : length-4] {
 		t.InternalData += fmt.Sprintf("%02x", b)
 	}

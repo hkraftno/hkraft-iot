@@ -26,10 +26,10 @@ func TestBattery(t *testing.T) {
 	var data thyLabxxnsStruct
 	data.parse([]byte{0x00, 0xfd, 0x00, 0x00, 0x00, 0x00})
 	actual := data.BatteryLevel
-	if expected != actual {
+	if uint8(expected) != actual {
 		t.Errorf(
-			"Expected BatteryLevel to be %f but was %f",
-			expected,
+			"Expected BatteryLevel to be %d but was %d",
+			uint8(expected),
 			actual,
 		)
 	}
@@ -157,37 +157,10 @@ func TestInvalidMessageFormat(t *testing.T) {
 func TestParserExampleHex1(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/03fd8e019c10001b63", nil)
 	w := httptest.NewRecorder()
-
-	/* Result from http://codec.slbase.io/SenlabH/decodeMessage
-	{
-	  "id": "datalog_transmission",
-	  "firmwareType": "SenlabH",
-	  "measures": [
-	      {
-	          "id": "temperature",
-	          "timestamp": 1547826819088,
-	          "value": 1.6875
-	      },
-	      {
-	          "id": "humidity",
-	          "timestamp": 1547826819088,
-	          "value": 99
-	      },
-	      {
-	          "id": "battery_current_level",
-	          "timestamp": 1547828612088,
-	          "value": 99
-	      }
-	  ],
-	  "parameters": [],
-	  "events": []
-	}
-	*/
-
 	Parse(w, r)
 	result := w.Result()
 	body, _ := ioutil.ReadAll(result.Body)
-	var expected = `{"id":3,"battery_level":99.6063,"internal_data":"8e019c10","temperature":1.6875,"humidity":99}`
+	var expected = `{"id":3,"battery_level":99,"internal_data":"8e019c10","temperature":1.6875,"humidity":99}`
 	if expected != string(body) {
 		t.Errorf(
 			"Expected JSON to be\n%s\nbut was\n%s",

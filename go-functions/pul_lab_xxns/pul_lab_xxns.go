@@ -35,11 +35,11 @@ func Parse(w http.ResponseWriter, r *http.Request) {
 }
 
 type pulLabxxnsStruct struct {
-	ID            uint8   `json:"id"`
-	WireCutStatus *bool   `json:"wire_cut_status"`
-	BatteryLevel  float32 `json:"battery_level"`
-	InternalData  string  `json:"internal_data"`
-	Counter       uint32  `json:"counter"`
+	ID            uint8  `json:"id"`
+	WireCutStatus *bool  `json:"wire_cut_status"`
+	BatteryLevel  uint8  `json:"battery_level"`
+	InternalData  string `json:"internal_data"`
+	Counter       uint32 `json:"counter"`
 }
 
 func (t *pulLabxxnsStruct) parse(payload []byte) {
@@ -53,7 +53,7 @@ func (t *pulLabxxnsStruct) parse(payload []byte) {
 		t.WireCutStatus = &wirecut
 	}
 	// battery level expressed in 1/254 %
-	t.BatteryLevel = float32(payload[batterByteAddress]) / 254.0 * 100
+	t.BatteryLevel = uint8(float32(payload[batterByteAddress]) / 254.0 * 100)
 	for _, b := range payload[2 : length-4] {
 		t.InternalData += fmt.Sprintf("%02x", b)
 	}

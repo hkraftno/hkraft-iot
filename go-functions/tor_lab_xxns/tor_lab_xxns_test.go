@@ -26,10 +26,10 @@ func TestBattery(t *testing.T) {
 	var data torLabxxnsStruct
 	data.parse([]byte{0x00, 0xfd, 0x00, 0x00, 0x00, 0x00})
 	actual := data.BatteryLevel
-	if expected != actual {
+	if uint8(expected) != actual {
 		t.Errorf(
-			"Expected BatteryLevel to be %f but was %f",
-			expected,
+			"Expected BatteryLevel to be %d but was %d",
+			uint8(expected),
 			actual,
 		)
 	}
@@ -147,7 +147,7 @@ func TestParserExampleHex1(t *testing.T) {
 	Parse(w, r)
 	result := w.Result()
 	body, _ := ioutil.ReadAll(result.Body)
-	var expected = `{"id":5,"battery_level":99.6063,"open_state":true,"internal_data":"8e019c10"}`
+	var expected = `{"id":5,"battery_level":99,"open_state":true,"internal_data":"8e019c10"}`
 	if expected != string(body) {
 		t.Errorf(
 			"Expected JSON to be\n%s\nbut was\n%s",
