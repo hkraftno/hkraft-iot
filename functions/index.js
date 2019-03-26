@@ -21,6 +21,10 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
   if (req.method === 'POST') {
     const uplink = req.body.DevEUI_uplink;
     const ts = new Date(uplink.Time).toISOString();
+    const coordinates = {
+      lat: uplink.LrrLAT,
+      lng: uplink.LrrLON
+    };
     const fromThingparkRef = firestore.doc(`from_thingpark/${ts}-${uplink.DevEUI}`);
     const measurementRef = firestore.doc(`${uplink.DevEUI}/${ts}`);
     if (!sensors[uplink.DevEUI]){
@@ -31,7 +35,7 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
     .then(() => console.log('Stored data from thinkpark: OK'))
     .then(() => rp.get(`${sensors[uplink.DevEUI]}/${uplink.payload_hex}`))
     .then(response => JSON.parse(response))
-    .then(parsed => Object.assign(parsed, {timestamp: ts}))
+    .then(parsed => Object.assign(parsed, {timestamp: ts, coordinates: coordinates}))
     .then(parsed => measurementRef.set(parsed))
     .then(() => console.log('Stored parsed payload: OK'))
     .then(() => res.sendStatus(201))
