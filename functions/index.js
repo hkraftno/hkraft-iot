@@ -21,12 +21,8 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
   if (req.method === 'POST') {
     const uplink = req.body.DevEUI_uplink;
     const ts = new Date(uplink.Time).toISOString();
-    const coordinates = {
-      lat: uplink.LrrLAT,
-      lng: uplink.LrrLON
-    };
     const fromThingparkRef = firestore.doc(`from_thingpark/${ts}-${uplink.DevEUI}`);
-    const measurementRef = firestore.doc(`${uplink.DevEUI}/${ts}`);
+    const measurementRef = firestore.doc(`sensors/${uplink.DevEUI}/${ts}`);
     if (!sensors[uplink.DevEUI]){
       return res.status(404).send(`There doesn't exist a parser for DevEUI ${uplink.DevEUI}`);
     }
@@ -35,7 +31,7 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
     .then(() => console.log('Stored data from thinkpark: OK'))
     .then(() => rp.get(`${sensors[uplink.DevEUI]}/${uplink.payload_hex}`))
     .then(response => JSON.parse(response))
-    .then(parsed => Object.assign(parsed, {timestamp: ts, coordinates: coordinates}))
+    .then(parsed => Object.assign(parsed, {timestamp: ts, coordinates: uplink.CustomerData.loc}))
     .then(parsed => measurementRef.set(parsed))
     .then(() => console.log('Stored parsed payload: OK'))
     .then(() => res.sendStatus(201))
@@ -48,13 +44,11 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
   }
 });
 
-for (const sensor of Object.keys(sensors)) {
-  exports[`updateLatestFor${sensor}`] = functions.firestore
-  .document(`${sensor}/{time}`)
-  .onCreate(snap =>
-    firestore
-    .doc(`latest/${sensor}`)
-    .set(snap.data())
-    .then(() => console.log(`Updated 'latest/${sensor}' to point to newest measurement`))
-  );
-}
+exports.updateLatest = functions.firestore
+.document(`sensors/{sensorId}/{time}`)
+.onCreate((snap, context) =>
+  firestore
+  .doc(`latest/${content.params.sensorId}`)
+  .set(snap.data())
+  .then(() => console.log(`Updated 'latest/${content.params.sensorId}' to point to newest measurement`))
+);
