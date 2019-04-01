@@ -22,7 +22,7 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
     const uplink = req.body.DevEUI_uplink;
     const ts = new Date(uplink.Time).toISOString();
     const fromThingparkRef = firestore.doc(`from_thingpark/${ts}-${uplink.DevEUI}`);
-    const measurementRef = firestore.doc(`sensors/${uplink.DevEUI}/${ts}`);
+    const measurementRef = firestore.doc(`sensors/lora/${uplink.DevEUI}/${ts}`);
     if (!sensors[uplink.DevEUI]){
       return res.status(404).send(`There doesn't exist a parser for DevEUI ${uplink.DevEUI}`);
     }
@@ -45,10 +45,10 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
 });
 
 exports.updateLatest = functions.firestore
-.document(`sensors/{sensorId}/{time}`)
+.document(`sensors/lora/{sensorId}/{time}`)
 .onCreate((snap, context) =>
   firestore
-  .doc(`latest/${content.params.sensorId}`)
+  .doc(`latest/${context.params.sensorId}`)
   .set(snap.data())
-  .then(() => console.log(`Updated 'latest/${content.params.sensorId}' to point to newest measurement`))
+  .then(() => console.log(`Updated 'latest/${context.params.sensorId}' to point to newest measurement`))
 );
