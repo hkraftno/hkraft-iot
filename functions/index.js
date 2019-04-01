@@ -6,32 +6,30 @@ const settings = { timestampsInSnapshots: true };
 firestore.settings(settings);
 const rp = require('request-promise-native');
 
-// DevEUI: parserUrl
-const sensors = {
-  '70B3D580A010638B': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_thy_lab_xxns',
-  '70B3D580A0106438': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_pul_lab_xxns',
-  '70B3D580A010344E': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_pir_lab_xxns',
-  '70B3D580A0104DA8': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_tem_lab_xxns',
-  '70B3D580A0106436': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_tor_lab_xxns',
-  '70B3D580A010642B': 'https://us-central1-hkraft-iot.cloudfunctions.net/parse_tor_lab_xxns',
-};
-
 exports.postSensorData = functions.https.onRequest((req, res) => {
   console.log('postSensorData received [', req.method, ']:', JSON.stringify(req.body));
   if (req.method === 'POST') {
     const uplink = req.body.DevEUI_uplink;
     const ts = new Date(uplink.Time).toISOString();
+    const coordinates = {lat: Number(uplink.CustomerData.loc.lat), lng: Number(uplink.CustomerData.loc.lon)}
     const fromThingparkRef = firestore.doc(`from_thingpark/${ts}-${uplink.DevEUI}`);
     const measurementRef = firestore.doc(`sensors/lora/${uplink.DevEUI}/${ts}`);
-    if (!sensors[uplink.DevEUI]){
-      return res.status(404).send(`There doesn't exist a parser for DevEUI ${uplink.DevEUI}`);
-    }
+    const sensorParsersRef = firestore.doc('sensors/lora');
+
     return fromThingparkRef
     .set(req.body)
     .then(() => console.log('Stored data from thinkpark: OK'))
-    .then(() => rp.get(`${sensors[uplink.DevEUI]}/${uplink.payload_hex}`))
+    .then(() => sensorParsersRef.get())
+    .then(doc => doc.data())
+    .then(sensors => {
+      if (!sensors[uplink.DevEUI]){
+        throw new Error(`There doesn't exist a parser for DevEUI ${uplink.DevEUI}`);
+      }
+      return sensors;
+    })
+    .then(sensors => rp.get(`${sensors[uplink.DevEUI]}/${uplink.payload_hex}`))
     .then(response => JSON.parse(response))
-    .then(parsed => Object.assign(parsed, {timestamp: ts, coordinates: uplink.CustomerData.loc}))
+    .then(parsed => Object.assign(parsed, {timestamp: ts, coordinates: coordinates}))
     .then(parsed => measurementRef.set(parsed))
     .then(() => console.log('Stored parsed payload: OK'))
     .then(() => res.sendStatus(201))
