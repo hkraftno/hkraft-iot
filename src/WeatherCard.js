@@ -49,14 +49,10 @@ class WeatherCard extends Component {
   }
   async componentDidMount() {
     yrno.getWeather(LOCATION)
-      .then((weather) => {
-        // Get a weather data point for a given time between now and 9 days ahead
-        weather.getForecastForTime(new Date())
-          .then(data => this.setState({ data }))
-      })
-      .catch((e) => {
-        console.log('an error occurred!', e);
-      });
+    // Get a weather data point for a given time between now and 9 days ahead
+      .then((weather) => weather.getForecastForTime(new Date()))
+      .then(data => this.setState({ data }))
+      .catch((e) => console.log('an error occurred!', e));
   }
   render() {
     const { classes } = this.props;
