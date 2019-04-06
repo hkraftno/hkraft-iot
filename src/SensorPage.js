@@ -1,5 +1,6 @@
 import React from 'react';
 import SensorCard  from './SensorCard';
+import SensorCard2  from './SensorCard2';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -26,6 +27,12 @@ function SensorPage(props) {
         <Grid container justify="center" spacing={8}  className={classes.root} alignItems="stretch"  >
             <Grid item xs={11} sm={5} md={4} >
                 <SensorCard />
+            </Grid>
+        </Grid>
+        <p />
+        <Grid container justify="center" spacing={8}  className={classes.root} alignItems="stretch"  >
+            <Grid item xs={11} sm={5} md={4} >
+                <SensorCard2 />
             </Grid>
         </Grid>
       </div>

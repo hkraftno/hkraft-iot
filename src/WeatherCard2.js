@@ -34,12 +34,12 @@ const yrno = require('yr.no-forecast')({
 });
 
 const LOCATION = {
-  // This is Lunavegen 6
-  lat: 59.4202,
-  lon: 5.2881
+  // This is Fiskåholmen
+  lat: 59.4334,
+  lon: 5.5247
 };
 
-class WeatherCard extends Component {
+class WeatherCard2 extends Component {
   constructor(props) {
     super(props);
 
@@ -95,4 +95,4 @@ class WeatherCard extends Component {
   }
 }
 
-export default withStyles(styles)(WeatherCard);
+export default withStyles(styles)(WeatherCard2);

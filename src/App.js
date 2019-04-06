@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import configureHistory from './configureHistory';
 import AnnaTheme from './AnnaTheme';
-import logo from './logo.svg'
+//import logo from './logo.svg'
 
 import InfoIcon from '@material-ui/icons/Info';
 import PoolIcon from '@material-ui/icons/Pool';
