@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"math"
 	"net/http"
 	"strings"
 )
@@ -44,7 +45,7 @@ type torLabxxnsStruct struct {
 func (t *torLabxxnsStruct) parse(payload []byte) {
 	t.ID = uint8(payload[0])
 	// battery level expressed in 1/254 %
-	t.BatteryLevel = uint8(float32(payload[1]) / 254.0 * 100)
+	t.BatteryLevel = uint8(math.Round(float64(payload[1]) / 254.0 * 100))
 	t.OpenState = payload[2]&0x80 > 0
 	for _, b := range payload[3:] {
 		t.InternalData += fmt.Sprintf("%02x", b)

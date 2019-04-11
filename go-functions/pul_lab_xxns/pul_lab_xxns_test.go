@@ -2,6 +2,7 @@ package gofunctions
 
 import (
 	"io/ioutil"
+	"math"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -22,7 +23,21 @@ func TestID(t *testing.T) {
 }
 
 func TestBattery(t *testing.T) {
-	var expected float32 = 253.0 / 254.0 * 100 // 99%
+	expected := math.Round(252.0 / 254.0 * 100) // 99%
+	var data pulLabxxnsStruct
+	data.parse([]byte{0x00, 0xfc, 0x00, 0x00, 0x00, 0x00})
+	actual := data.BatteryLevel
+	if uint8(expected) != actual {
+		t.Errorf(
+			"Expected BatteryLevel to be %d but was %d",
+			uint8(expected),
+			actual,
+		)
+	}
+}
+
+func TestBatteryRounding(t *testing.T) {
+	expected := math.Round(253.0 / 254.0 * 100) // 100%
 	var data pulLabxxnsStruct
 	data.parse([]byte{0x00, 0xfd, 0x00, 0x00, 0x00, 0x00})
 	actual := data.BatteryLevel
@@ -167,7 +182,7 @@ func TestInvalidMessageFormat(t *testing.T) {
 }
 
 func TestParserExampleHex1(t *testing.T) {
-	r, _ := http.NewRequest("GET", "/02fd8e019c10001b1b00", nil)
+	r, _ := http.NewRequest("GET", "/02fc8e019c10001b1b00", nil)
 	w := httptest.NewRecorder()
 
 	Parse(w, r)

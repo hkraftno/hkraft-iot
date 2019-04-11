@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"math"
 	"net/http"
 	"strings"
 )
@@ -45,7 +46,7 @@ func (t *temLabxxnsStruct) parse(payload []byte) {
 	length := len(payload)
 	t.ID = uint8(payload[0])
 	// battery level expressed in 1/254 %
-	t.BatteryLevel = uint8(float32(payload[1]) / 254.0 * 100.0)
+	t.BatteryLevel = uint8(math.Round(float64(payload[1]) / 254.0 * 100))
 	for _, b := range payload[2 : length-2] {
 		t.InternalData += fmt.Sprintf("%02x", b)
 	}
