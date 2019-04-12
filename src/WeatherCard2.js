@@ -44,7 +44,12 @@ class WeatherCard2 extends Component {
     super(props);
 
     this.state = {
-      data: null,
+      data: {
+        icon:"undefined",
+        temperature: {
+          value: "Ukjent"
+        }
+      },
     };
   }
   async componentDidMount() {
