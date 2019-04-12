@@ -53,7 +53,7 @@ class Om extends Component {
                 <p />
                 Det er ikke bare hjemmene våre som blir smartere med ny teknologi – det ligger et samfunnsmessig mye større potensiale andre steder. For eksempel i kommuneforvaltning og i det å bygge byer, regioner og kommuner til smartere og mer effektive samfunn.
                 <p />
-                På Alvanuten i Aksdal har Haugaland Kraft montert en sender som over lange avstander kan kommunisere med sensorer i mange varianter. Sensorene kan måle luftkvalitet, temperatur, bevegelse, helling, posisjon, retning, trykk, vind, sol og mye mer. De kan plasseres i vann, sjø, luft, jord, på eller inne i gjenstander. Et stort mulighetsrom som kun begrenses av kreativitet.
+                Haugaland Kraft har montert sendere i regionen som over lange avstander kan kommunisere med sensorer i mange varianter. Sensorene kan måle luftkvalitet, temperatur, bevegelse, helling, posisjon, retning, trykk, vind, sol og mye mer. De kan plasseres i vann, sjø, luft, jord, på eller inne i gjenstander. Et stort mulighetsrom som kun begrenses av kreativitet.
                 <p />
                 Eksempler på anvendelser er måling av badetemperaturer, telling av turgåere, syklister, ledige parkeringsplasser, fyllingsgrad i søppelkasser, kumlokk som er i ferd med å tettes, rør som har sprekker eller er tette, brannfeller, rottefeller, mørke gatelys, gryende oversvømmelser, isete veier, luftkvalitet, vær, vannstand og kloakk.
                 <p />
@@ -65,7 +65,10 @@ class Om extends Component {
                 <Typography align="left" gutterBottom>
                 Bade-Anna er ute og bader hele sommeren. Hun måler temperaturen i vannet og deler det med andre bade-entusiaster. Ikke alle er like glade i å bade i all slags vær som Bade-Anna, men det er bra at hun gjør det for oss. Da vet vi om temperaturen er akkurat passe når vi vil ta oss en dukkert. Bade-Anna melder også været. Eller, det vil si hun sjekker værmeldingen hos Yr.
                 <p />
-                Bade-Anna er en liten sensor (LoRaWAN) med en temperaturmåler som flyter ute på Eivindsvatnet. Den er laget som en prototype på hva som er mulig å få til med IoT.
+                Bade-Anna er en liten sensor (<ReactGA.OutboundLink 
+                eventLabel="LoRaWAN"
+                to="https://lora-alliance.org/about-lorawan"
+              target="_blank">LoRaWAN</ReactGA.OutboundLink>) med en temperaturmåler som flyter ute i vannet. Den er laget som en prototype på hva som er mulig å få til med IoT.
                 </Typography>
                 <Typography variant="title" align="left" gutterBottom>
                 Kontakt
@@ -74,7 +77,7 @@ class Om extends Component {
                 Ta kontakt på <ReactGA.OutboundLink 
                 eventLabel="facebook"
                 to="https://www.facebook.com/HaugalandKraft/"
-              target="_blank">facebook</ReactGA.OutboundLink> eller via tilbakemeldingsknappen på siden her, hvis det er noe du lurer på, er inspirert til å lage noe lignende selv eller bare vil gi en tilbakemelding
+              target="_blank">facebook</ReactGA.OutboundLink> hvis det er noe du lurer på, er inspirert til å lage noe lignende selv eller bare vil gi en tilbakemelding
                 </Typography>
 {/*                 <Typography variant="title" align="left" gutterBottom>
                 Om bruk av informasjonskapsler
