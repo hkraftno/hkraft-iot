@@ -1,8 +1,0 @@
-{
-    "globals": {
-        "Vue": "readonly",
-        "VueRouter": "readonly",
-        "google": "readonly",
-        "firebase": "readonly"
-    }
-}
