@@ -1,16 +1,13 @@
-package gofunctions
+package thy_lab_xxns
 
 import (
-	"io/ioutil"
 	"math"
-	"net/http"
-	"net/http/httptest"
 	"testing"
 )
 
 func TestID(t *testing.T) {
 	var expected uint8 = 3
-	var data thyLabxxnsStruct
+	var data ThyLabxxnsStruct
 	data.parse([]byte{0x03, 0x00, 0x00, 0x00, 0x00, 0x00})
 	actual := data.ID
 	if expected != actual {
@@ -24,7 +21,7 @@ func TestID(t *testing.T) {
 
 func TestBattery(t *testing.T) {
 	expected := math.Round(252.0 / 254.0 * 100) // 99%
-	var data thyLabxxnsStruct
+	var data ThyLabxxnsStruct
 	data.parse([]byte{0x00, 0xfc, 0x00, 0x00, 0x00, 0x00})
 	actual := data.BatteryLevel
 	if uint8(expected) != actual {
@@ -38,7 +35,7 @@ func TestBattery(t *testing.T) {
 
 func TestBatteryRounding(t *testing.T) {
 	expected := math.Round(253.0 / 254.0 * 100) // 100%
-	var data thyLabxxnsStruct
+	var data ThyLabxxnsStruct
 	data.parse([]byte{0x00, 0xfd, 0x00, 0x00, 0x00, 0x00})
 	actual := data.BatteryLevel
 	if uint8(expected) != actual {
@@ -52,7 +49,7 @@ func TestBatteryRounding(t *testing.T) {
 
 func TestInternalData(t *testing.T) {
 	expected := "01020304050607"
-	var data thyLabxxnsStruct
+	var data ThyLabxxnsStruct
 	data.parse([]byte{0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x00, 0x00, 0x00})
 	actual := data.InternalData
 	if actual != expected {
@@ -66,7 +63,7 @@ func TestInternalData(t *testing.T) {
 
 func TestTemperature(t *testing.T) {
 	var expected float32 = 32767 / 16.0
-	var data thyLabxxnsStruct
+	var data ThyLabxxnsStruct
 	data.parse([]byte{0x00, 0x00, 0x7f, 0xff, 0x00})
 	actual := data.Temperature
 	if expected != actual {
@@ -80,7 +77,7 @@ func TestTemperature(t *testing.T) {
 
 func TestTemperatureVariableInternalData(t *testing.T) {
 	var expected float32 = -3841 / 16.0
-	var data thyLabxxnsStruct
+	var data ThyLabxxnsStruct
 	data.parse([]byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0xff, 0x00})
 	actual := data.Temperature
 	if expected != actual {
@@ -94,7 +91,7 @@ func TestTemperatureVariableInternalData(t *testing.T) {
 
 func TestHumidity(t *testing.T) {
 	var expected uint8 = 95
-	var data thyLabxxnsStruct
+	var data ThyLabxxnsStruct
 	data.parse([]byte{0x00, 0x00, 0x00, 0x00, 0x5f})
 	actual := data.Humidity
 	if expected != actual {
@@ -106,81 +103,24 @@ func TestHumidity(t *testing.T) {
 	}
 }
 
-func TestInvalidHTTPMethod(t *testing.T) {
-	r, _ := http.NewRequest("POST", "/03fd8e019c10001b63", nil)
-	w := httptest.NewRecorder()
-
-	Parse(w, r)
-	result := w.Result()
-	if result.StatusCode == 200 {
-		t.Errorf("Expected status code to be != 200 when not using GET")
-	}
-	body, err := ioutil.ReadAll(result.Body)
-	if len(body) == 0 || err != nil {
-		t.Errorf("Expected body to contain error was %+q %s", body, err)
-	}
-}
-
-func TestInvalidHex(t *testing.T) {
-	r, _ := http.NewRequest("GET", "/03fd8e019c10001b6", nil)
-	w := httptest.NewRecorder()
-
-	Parse(w, r)
-	result := w.Result()
-	if result.StatusCode == 200 {
-		t.Errorf("Expected status code to be != 200 when not using valid HEX")
-	}
-	body, err := ioutil.ReadAll(result.Body)
-
-	if len(body) == 0 || err != nil {
-		t.Errorf("Expected body to contain error was %+q %s", body, err)
-	}
-}
-
-func TestInvalidURL(t *testing.T) {
-	r, _ := http.NewRequest("GET", "not-valid", nil)
-	w := httptest.NewRecorder()
-
-	Parse(w, r)
-	result := w.Result()
-	if result.StatusCode == 200 {
-		t.Errorf("Expected status code to be != 200 when not using valid URL")
-	}
-	body, err := ioutil.ReadAll(result.Body)
-
-	if len(body) == 0 || err != nil {
-		t.Errorf("Expected body to contain error was %+q %s", body, err)
-	}
-}
-
 func TestInvalidMessageFormat(t *testing.T) {
-	r, _ := http.NewRequest("GET", "/09", nil)
-	w := httptest.NewRecorder()
-
-	Parse(w, r)
-	result := w.Result()
-	if result.StatusCode == 200 {
-		t.Errorf("Expected status code to be != 200 when not using valid URL")
-	}
-	body, err := ioutil.ReadAll(result.Body)
-
-	if len(body) == 0 || err != nil {
-		t.Errorf("Expected body to contain error was %+q %s", body, err)
+	_, err := Parse([]byte{0x99})
+	if err == nil {
+		t.Errorf("Expected error when parsing invalid message type, got nil")
 	}
 }
 
 func TestParserExampleHex1(t *testing.T) {
-	r, _ := http.NewRequest("GET", "/03fc8e019c10001b63", nil)
-	w := httptest.NewRecorder()
-	Parse(w, r)
-	result := w.Result()
-	body, _ := ioutil.ReadAll(result.Body)
+	parsedPayload, err := Parse([]byte{0x03, 0xfc, 0x8e, 0x01, 0x9c, 0x10, 0x00, 0x1b, 0x63})
+	if err != nil {
+		t.Errorf("Did not expect error, got %v", err)
+	}
 	var expected = `{"id":3,"battery_level":99,"internal_data":"8e019c10","temperature":1.6875,"humidity":99}`
-	if expected != string(body) {
+	if expected != string(parsedPayload) {
 		t.Errorf(
 			"Expected JSON to be\n%s\nbut was\n%s",
 			expected,
-			body,
+			parsedPayload,
 		)
 	}
 }
