@@ -7,5 +7,10 @@ service cloud.firestore {
     match /sensors/lora/{DevEUI}/{time} {
       allow read: if true
     }
+    // Allow everything (should only be used in test)
+    // match /{document=**} {
+    // 	allow read, write: if true
+    // }
   }
 }
+
