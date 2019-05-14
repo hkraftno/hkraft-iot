@@ -36,11 +36,15 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
 
 exports.updateLatest = functions.firestore
 .document(`sensors/lora/{sensorId}/{time}`)
-.onCreate((snap, context) => firestore
-.doc(`latest/${context.params.sensorId}`)
-.set(snap.data())
-.then(() => console.log(`Updated 'latest/${context.params.sensorId}' to point to newest measurement`))
-);
+.onCreate((snap, context) => {
+  if (context.params.sensorId !== 'parsers') {
+    firestore
+    .doc(`latest/${context.params.sensorId}`)
+    .set(snap.data())
+    .then(() => console.log(`Updated 'latest/${context.params.sensorId}' to point to newest measurement`))
+    .catch(err => console.log(`Got error when updating latest: ${err.message}`));
+  }
+});
 
 function getSensorParser(DevEUI) {
   return firestore.collection('sensors/lora/parsers')
