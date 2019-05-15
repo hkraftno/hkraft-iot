@@ -17,13 +17,14 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
 
     return fromThingparkRef
     .set(req.body)
-    .then(() => console.log('Stored data from thinkpark: OK'))
+    .then(plog('Stored data from thinkpark: OK'))
+    .then(plog(`Getting parser for DevEUI ${uplink.DevEUI}`))
     .then(() => getSensorParser(uplink.DevEUI))
     .then(parser => rp.get(`${parser.parserURL}/${uplink.payload_hex}`))
     .then(JSON.parse)
     .then(parsed => Object.assign(parsed, {timestamp: ts, coordinates: coordinates}))
     .then(parsed => measurementRef.set(parsed))
-    .then(() => console.log('Stored parsed payload: OK'))
+    .then(plog('Stored parsed payload: OK'))
     .then(() => res.sendStatus(201))
     .catch(error => {
       console.error('Error:', error.message);
@@ -57,5 +58,15 @@ function getSensorParser(DevEUI) {
       throw new Error(`There are more than one parser that matches the DevEUI ${DevEUI}: ${query.docs.map(s => s.id)}`);
     }
     return query.docs[0].data();
+  })
+  .catch(error => {
+    throw new Error(`Got error when trying to get parser from from firestore: ${error.message}`);
   });
+}
+
+function plog(message) {
+  return function(promiseArgument) {
+    console.log(message);
+    return promiseArgument;
+  };
 }
