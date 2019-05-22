@@ -18,7 +18,6 @@ var (
 )
 
 func getDefibrilators(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(clientID, clientSecret)
 	token, err := Authenticate(clientID, clientSecret)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -72,17 +71,25 @@ func main() {
 func getIntQueryParam(query map[string][]string, key string) (value int, err error) {
 	stringValue, err := getQueryParam(query, key)
 	if err != nil {
+		return 0, err
+	}
+	value, err = strconv.Atoi(stringValue)
+	if err != nil {
 		return 0, fmt.Errorf("%s needs to be a number (int), was %s, got this error %v", key, stringValue, err)
 	}
-	return strconv.Atoi(stringValue)
+	return
 }
 
 func getfloat64QueryParam(query map[string][]string, key string) (value float64, err error) {
 	stringValue, err := getQueryParam(query, key)
 	if err != nil {
+		return 0, err
+	}
+	value, err = strconv.ParseFloat(stringValue, 64)
+	if err != nil {
 		return 0, fmt.Errorf("%s needs to be a number (float), i.e. 59.123 but it was %s, got this error %v", key, stringValue, err)
 	}
-	return strconv.ParseFloat(stringValue, 64)
+	return
 }
 
 func getQueryParam(query map[string][]string, key string) (value string, err error) {
