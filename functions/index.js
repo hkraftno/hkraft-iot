@@ -60,7 +60,7 @@ function getSensorParser(DevEUI) {
     return query.docs[0].data();
   })
   .catch(error => {
-    throw new Error(`Got error when trying to get parser from from firestore: ${error.message}`);
+    throw new Error(`Got error when trying to get parser from firestore: ${error.message}`);
   });
 }
 
