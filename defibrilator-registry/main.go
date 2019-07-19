@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	apiURL = "https://www.113.no/ords/api"
+	apiURL = "https://hjertestarterregister.113.no/ords/api"
 )
 
 var (
