@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -18,6 +19,7 @@ var (
 )
 
 func getDefibrilators(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*") // Enable CORS
 	token, err := Authenticate(clientID, clientSecret)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -53,8 +55,22 @@ func getDefibrilators(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	w.Header().Add("Content-Type", "application/json")
-	fmt.Fprintf(w, "%s", body)
+
+	var response map[string]interface{}
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if assets, ok := response["ASSETS"]; ok {
+		assetsJSON, _ := json.Marshal(assets)
+		w.Header().Add("Content-Type", "application/json")
+		fmt.Fprintf(w, "%s", assetsJSON)
+	} else {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func main() {
