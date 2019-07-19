@@ -16,7 +16,7 @@ deploy: build push
 		--project $(GPC_PROJECT_ID)\
 		--allow-unauthenticated\
 		-q\
-		--region us-central1\
+		--region europe-west1\
 		--set-env-vars CLIENT_ID=$$(gopass hjertestarterregisteret.no/client-id),CLIENT_SECRET=$$(gopass hjertestarterregisteret.no/client-secret)\
 		--memory 128Mi\
 		--image $(CONTAINER_NAME)
