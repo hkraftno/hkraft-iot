@@ -6,6 +6,13 @@ const settings = { timestampsInSnapshots: true };
 firestore.settings(settings);
 const rp = require('request-promise-native');
 
+class MissingParserError extends Error {
+  constructor(message = "", ...args) {
+    super(message, ...args);
+    this.message = "There doesn't exist a parser for DevEUI " + message;
+  }
+}
+
 exports.postSensorData = functions.https.onRequest((req, res) => {
   console.log(
     'postSensorData received [',
@@ -39,6 +46,10 @@ exports.postSensorData = functions.https.onRequest((req, res) => {
       .then(plog('Stored parsed payload: OK'))
       .then(() => res.sendStatus(201))
       .catch((error) => {
+        if (error instanceof MissingParserError) {
+          console.warn('Warn:', error.message);
+          return res.status(204).send(error.message);
+        }
         console.error('Error:', error.message);
         return res.status(500).send(error.message);
       });
@@ -95,7 +106,7 @@ function getSensorParser(DevEUI) {
     .get()
     .then((query) => {
       if (query.docs.length === 0) {
-        throw new Error(`There doesn't exist a parser for DevEUI ${DevEUI}`);
+        throw new MissingParserError(DevEUI);
       } else if (query.docs.length > 1) {
         throw new Error(
           `There are more than one parser that matches the DevEUI ${DevEUI}: ${query.docs.map(
